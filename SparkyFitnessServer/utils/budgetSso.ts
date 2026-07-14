@@ -76,7 +76,7 @@ export function verifyBudgetSsoTicket(
   if (
     payload.iat > now + 5 ||
     payload.exp <= now ||
-    payload.exp - payload.iat > 90
+    payload.exp - payload.iat > 5 * 60
   ) {
     throw new Error('Expired or invalid SSO ticket lifetime');
   }
