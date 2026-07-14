@@ -10,7 +10,7 @@ i18n
   .use(initReactI18next)
   .init({
     supportedLngs: getSupportedLanguages(),
-    fallbackLng: 'en',
+    fallbackLng: 'ru',
     detection: {
       order: [
         'localStorage',
@@ -21,6 +21,7 @@ i18n
         'htmlTag',
       ],
       caches: ['localStorage', 'cookie'],
+      lookupLocalStorage: 'i18nextLng',
     },
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',

@@ -289,7 +289,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [waterDisplayUnit, setWaterDisplayUnitState] = useState<
     'ml' | 'oz' | 'liter'
   >('ml');
-  const [language, setLanguageState] = useState<string>('en');
+  const [language, setLanguageState] = useState<string>('ru');
   const [bmrAlgorithm, setBmrAlgorithmState] = useState<BmrAlgorithm>(
     BmrAlgorithm.MIFFLIN_ST_JEOR
   );
@@ -581,7 +581,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({
         item_display_limit: 10,
         food_display_limit: 10,
         water_display_unit: waterDisplayUnit,
-        language: 'en',
+        language: 'ru',
         calorie_goal_adjustment_mode: 'dynamic' as const,
         energy_unit: 'kcal' as const,
         auto_scale_open_food_facts_imports: false,
@@ -652,7 +652,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({
         setItemDisplayLimitState(data.item_display_limit || 10);
         setFoodDisplayLimitState(data.food_display_limit || 10);
         setWaterDisplayUnitState(data.water_display_unit || 'ml');
-        setLanguageState(data.language || 'en');
+        setLanguageState(data.language || 'ru');
         setCalorieGoalAdjustmentModeState(
           data.calorie_goal_adjustment_mode || 'dynamic'
         );
