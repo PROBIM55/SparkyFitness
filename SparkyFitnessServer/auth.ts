@@ -21,6 +21,7 @@ import { sso } from '@better-auth/sso';
 import { expo } from '@better-auth/expo';
 import { expoSsoCookieRelay } from './utils/expoSsoCookieRelay.js';
 import { passkey } from '@better-auth/passkey';
+import { budgetSso } from './utils/budgetSsoPlugin.js';
 
 const hashAsync = promisify(bcrypt.hash);
 const compareAsync = promisify(bcrypt.compare);
@@ -627,6 +628,7 @@ const auth = betterAuth({
     },
   },
   plugins: [
+    budgetSso(),
     // Expo mobile app support: maps the app's expo-origin header to origin and
     // serves /expo-authorization-proxy so the system browser carries the OAuth
     // state cookie. The relay plugin forwards the session cookie to the app on

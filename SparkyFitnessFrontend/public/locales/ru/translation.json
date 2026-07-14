@@ -2281,6 +2281,9 @@
     "fullName": "Имя",
     "fullNamePlaceholder": "Введите имя",
     "createPasswordPlaceholder": "Придумайте пароль",
-    "creatingAccount": "Создаём аккаунт..."
+    "creatingAccount": "Создаём аккаунт...",
+    "redirectingToBudget": "Переходим к единому входу",
+    "sharedAccountDescription": "Для финансов и здоровья используется один аккаунт BudgetApp.",
+    "useLocalLogin": "Резервный локальный вход"
   }
 }
