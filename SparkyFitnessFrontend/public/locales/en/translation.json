@@ -2801,5 +2801,14 @@
       "notes": "Notes",
       "notesPlaceholder": "Anything else to note…"
     }
+  },
+  "appMode": {
+    "finance": "Finance",
+    "health": "Health"
+  },
+  "auth": {
+    "signedOut": "Signed out successfully",
+    "signOutFailed": "Failed to sign out",
+    "signOut": "Sign Out"
   }
 }

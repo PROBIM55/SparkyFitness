@@ -22,6 +22,8 @@ import {
   Cookie, // Used for Snacks
   UtensilsCrossed, // Used for Dinner
   Salad, // Used for Food Log
+  WalletCards,
+  HeartPulse,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
@@ -91,15 +93,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     try {
       await signOut();
       toast({
-        title: 'Success',
-        description: 'Signed out successfully',
+        title: t('common.success', 'Успешно'),
+        description: t('auth.signedOut', 'Вы вышли из системы'),
       });
       navigate('/login'); // Navigate to login page after sign out
     } catch (err) {
       error(loggingLevel, 'MainLayout: Sign out error:', err);
       toast({
-        title: 'Error',
-        description: 'Failed to sign out',
+        title: t('common.error', 'Ошибка'),
+        description: t('auth.signOutFailed', 'Не удалось выйти из системы'),
         variant: 'destructive',
       });
     }
@@ -436,15 +438,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-1">
+        <div className="flex flex-col gap-3 mb-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex min-w-0 items-center gap-1">
             <img
               src="/images/SparkyFitness.webp"
               alt="SparkyFitness Logo"
               width={54}
               height={72}
             />
-            <h1 className="text-xl sm:text-2xl font-bold text-foreground dark:text-slate-300">
+            <h1 className="truncate text-lg sm:text-2xl font-bold text-foreground dark:text-slate-300">
               SparkyFitness
             </h1>
             {!isMobile && (
@@ -454,10 +456,23 @@ const MainLayout: React.FC<MainLayoutProps> = ({
               </>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <div className="order-first grid w-full grid-cols-2 gap-1 rounded-xl border bg-muted/50 p-1 sm:order-none sm:w-auto">
+              <a
+                href="https://budzhetapp.ru/app"
+                className="flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
+              >
+                <WalletCards className="h-4 w-4" />
+                {t('appMode.finance', 'Финансы')}
+              </a>
+              <span className="flex items-center justify-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground shadow-sm">
+                <HeartPulse className="h-4 w-4" />
+                {t('appMode.health', 'Здоровье')}
+              </span>
+            </div>
             <ProfileSwitcher />
             <span className="text-sm text-muted-foreground hidden sm:inline">
-              Welcome {activeUserName}
+              {t('common.welcome', 'Здравствуйте')}, {activeUserName}
             </span>
 
             {onStartOnboarding && (
@@ -466,12 +481,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 size="sm"
                 onClick={onStartOnboarding}
                 className="flex items-center gap-2"
-                title="Complete your setup"
+                title={t('onboarding.completeSetup', 'Завершить настройку')}
               >
                 <span className="hidden sm:inline">
                   {t('onboarding.completeSetup', 'Complete Setup')}
                 </span>
-                <span className="sm:hidden">Setup</span>
+                <span className="sm:hidden">
+                  {t('common.setup', 'Настройка')}
+                </span>
               </Button>
             )}
             <GlobalNotificationIcon />
@@ -485,7 +502,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
             >
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:inline dark:text-slate-300">
-                Sign Out
+                {t('auth.signOut', 'Выйти')}
               </span>
             </Button>
           </div>
