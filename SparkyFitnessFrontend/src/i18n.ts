@@ -12,14 +12,7 @@ i18n
     supportedLngs: getSupportedLanguages(),
     fallbackLng: 'ru',
     detection: {
-      order: [
-        'localStorage',
-        'querystring',
-        'cookie',
-        'sessionStorage',
-        'navigator',
-        'htmlTag',
-      ],
+      order: ['localStorage', 'querystring', 'cookie', 'sessionStorage'],
       caches: ['localStorage', 'cookie'],
       lookupLocalStorage: 'i18nextLng',
     },
