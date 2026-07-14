@@ -69,18 +69,21 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            What is your sex?
+            {t('onboarding.sexTitle', 'Укажите ваш пол')}
           </h1>
           <p className="text-muted-foreground mb-8">
-            Used to calculate your base metabolic rate.
+            {t(
+              'onboarding.sexDescription',
+              'Это нужно для расчета базового обмена веществ.'
+            )}
           </p>
           <OptionButton
-            label="Male"
+            label={t('onboarding.male', 'Мужской')}
             isSelected={formData.sex === 'male'}
             onClick={() => handleSelect('sex', 'male')}
           />
           <OptionButton
-            label="Female"
+            label={t('onboarding.female', 'Женский')}
             isSelected={formData.sex === 'female'}
             onClick={() => handleSelect('sex', 'female')}
           />
@@ -90,20 +93,20 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-8">
-            What is your primary goal?
+            {t('onboarding.primaryGoalTitle', 'Какая у вас основная цель?')}
           </h1>
           <OptionButton
-            label="Lose weight"
+            label={t('onboarding.loseWeight', 'Снизить вес')}
             isSelected={formData.primaryGoal === 'lose_weight'}
             onClick={() => handleSelect('primaryGoal', 'lose_weight')}
           />
           <OptionButton
-            label="Maintain weight"
+            label={t('onboarding.maintainWeight', 'Поддерживать вес')}
             isSelected={formData.primaryGoal === 'maintain_weight'}
             onClick={() => handleSelect('primaryGoal', 'maintain_weight')}
           />
           <OptionButton
-            label="Gain weight"
+            label={t('onboarding.gainWeight', 'Набрать вес')}
             isSelected={formData.primaryGoal === 'gain_weight'}
             onClick={() => handleSelect('primaryGoal', 'gain_weight')}
           />
@@ -113,9 +116,13 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            What is your current weight?
+            {t('onboarding.currentWeightTitle', 'Какой у вас текущий вес?')}
           </h1>
-          <p className="text-muted-foreground mb-8">Enter in {weightUnit}.</p>
+          <p className="text-muted-foreground mb-8">
+            {t('onboarding.enterInUnit', 'Введите значение в {{unit}}.', {
+              unit: weightUnit,
+            })}
+          </p>
 
           <div className="flex justify-center mb-6 bg-muted p-1 rounded-lg w-fit mx-auto">
             <button
@@ -158,7 +165,7 @@ export const OnboardingSteps = ({
             disabled={!formData.currentWeight}
             className="w-full mt-12 h-14 text-lg rounded-full"
           >
-            Continue
+            {t('common.continue', 'Продолжить')}
           </Button>
         </>
       );
@@ -166,9 +173,13 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            What is your height?
+            {t('onboarding.heightTitle', 'Какой у вас рост?')}
           </h1>
-          <p className="text-muted-foreground mb-8">Enter in {heightUnit}.</p>
+          <p className="text-muted-foreground mb-8">
+            {t('onboarding.enterInUnit', 'Введите значение в {{unit}}.', {
+              unit: heightUnit,
+            })}
+          </p>
 
           <div className="flex justify-center mb-6 bg-muted p-1 rounded-lg w-fit mx-auto">
             <button
@@ -208,7 +219,7 @@ export const OnboardingSteps = ({
             disabled={!formData.height}
             className="w-full mt-12 h-14 text-lg rounded-full"
           >
-            Continue
+            {t('common.continue', 'Продолжить')}
           </Button>
         </>
       );
@@ -216,15 +227,23 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            When were you born?
+            {t('onboarding.birthDateTitle', 'Когда вы родились?')}
           </h1>
           <p className="text-muted-foreground mb-8">
-            Age is a key factor in your metabolism.
+            {t(
+              'onboarding.birthDateDescription',
+              'Возраст влияет на расчет обмена веществ.'
+            )}
           </p>
           <div className="flex justify-center mb-6 bg-muted p-1 rounded-lg w-fit mx-auto">
             <Select value={localDateFormat} onValueChange={setLocalDateFormat}>
               <SelectTrigger className="w-[180px] bg-card border-none rounded-md">
-                <SelectValue placeholder="Select format" />
+                <SelectValue
+                  placeholder={t(
+                    'onboarding.selectDateFormat',
+                    'Выберите формат'
+                  )}
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="MM/dd/yyyy">
@@ -256,7 +275,9 @@ export const OnboardingSteps = ({
                   {formData.birthDate ? (
                     format(parseISO(formData.birthDate), localDateFormat)
                   ) : (
-                    <span className="text-muted-foreground">Pick a date</span>
+                    <span className="text-muted-foreground">
+                      {t('onboarding.pickDate', 'Выберите дату')}
+                    </span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
@@ -291,7 +312,7 @@ export const OnboardingSteps = ({
             disabled={!formData.birthDate}
             className="w-full mt-12 h-14 text-lg rounded-full"
           >
-            Continue
+            {t('common.continue', 'Продолжить')}
           </Button>
         </>
       );
@@ -299,29 +320,44 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Estimate your body fat
+            {t('onboarding.bodyFatTitle', 'Оцените долю жира в организме')}
           </h1>
           <p className="text-muted-foreground mb-8">
-            A visual estimate is sufficient.
+            {t(
+              'onboarding.bodyFatDescription',
+              'Достаточно примерной визуальной оценки.'
+            )}
           </p>
           <div className="grid grid-cols-2 gap-4">
             {[
-              'Low (<15%)',
-              'Medium (15-25%)',
-              'High (25-35%)',
-              'Very High (>35%)',
+              {
+                value: 'Low (<15%)',
+                label: t('onboarding.bodyFatLow', 'Низкая (<15%)'),
+              },
+              {
+                value: 'Medium (15-25%)',
+                label: t('onboarding.bodyFatMedium', 'Средняя (15-25%)'),
+              },
+              {
+                value: 'High (25-35%)',
+                label: t('onboarding.bodyFatHigh', 'Высокая (25-35%)'),
+              },
+              {
+                value: 'Very High (>35%)',
+                label: t('onboarding.bodyFatVeryHigh', 'Очень высокая (>35%)'),
+              },
             ].map((range) => (
               <button
-                key={range}
-                onClick={() => handleSelect('bodyFatRange', range)}
+                key={range.value}
+                onClick={() => handleSelect('bodyFatRange', range.value)}
                 className={`p-6 rounded-xl border-2 bg-card text-foreground font-semibold transition-all duration-200
                      ${
-                       formData.bodyFatRange === range
+                       formData.bodyFatRange === range.value
                          ? 'border-green-500'
                          : 'border-border hover:border-green-500/50 hover:shadow-sm'
                      }`}
               >
-                {range}
+                {range.label}
               </button>
             ))}
           </div>
@@ -331,9 +367,11 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            What is your target weight?
+            {t('onboarding.targetWeightTitle', 'Какой вес вы хотите достичь?')}
           </h1>
-          <p className="text-muted-foreground mb-8">Your ultimate goal.</p>
+          <p className="text-muted-foreground mb-8">
+            {t('onboarding.targetWeightDescription', 'Ваша итоговая цель.')}
+          </p>
           <div className="flex items-center justify-center">
             <UnitInput
               id="target-weight"
@@ -354,7 +392,7 @@ export const OnboardingSteps = ({
             disabled={!formData.targetWeight}
             className="w-full mt-12 h-14 text-lg rounded-full"
           >
-            Continue
+            {t('common.continue', 'Продолжить')}
           </Button>
         </>
       );
@@ -362,12 +400,17 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-8">
-            How many meals do you eat in a typical day?
+            {t(
+              'onboarding.mealsPerDayTitle',
+              'Сколько раз в день вы обычно едите?'
+            )}
           </h1>
           {[3, 4, 5, 6].map((num) => (
             <OptionButton
               key={num}
-              label={`${num} meals per day`}
+              label={t('onboarding.mealsPerDayOption', '{{count}} раз в день', {
+                count: num,
+              })}
               isSelected={formData.mealsPerDay === num}
               onClick={() => handleSelect('mealsPerDay', num)}
             />
@@ -378,40 +421,43 @@ export const OnboardingSteps = ({
       return (
         <>
           <h1 className="text-3xl font-bold text-foreground mb-8">
-            {t('onboarding.activityLevelTitle', 'How often do you exercise?')}
+            {t('onboarding.activityLevelTitle', 'Как часто вы тренируетесь?')}
           </h1>
           <OptionButton
-            label={t('onboarding.activityNotMuch', 'Not Much')}
+            label={t('onboarding.activityNotMuch', 'Почти не тренируюсь')}
             subLabel={t(
               'onboarding.activityNotMuchDesc',
-              'Sedentary lifestyle, little to no exercise.'
+              'Малоподвижный образ жизни, тренировок мало или нет.'
             )}
             isSelected={formData.activityLevel === 'not_much'}
             onClick={() => handleSelect('activityLevel', 'not_much')}
           />
           <OptionButton
-            label={t('onboarding.activityLight', 'Light (1-2 days/week)')}
+            label={t('onboarding.activityLight', 'Легкая (1-2 дня в неделю)')}
             subLabel={t(
               'onboarding.activityLightDesc',
-              'Light exercise or sports.'
+              'Легкие тренировки или другая физическая активность.'
             )}
             isSelected={formData.activityLevel === 'light'}
             onClick={() => handleSelect('activityLevel', 'light')}
           />
           <OptionButton
-            label={t('onboarding.activityModerate', 'Moderate (3-5 days/week)')}
+            label={t(
+              'onboarding.activityModerate',
+              'Умеренная (3-5 дней в неделю)'
+            )}
             subLabel={t(
               'onboarding.activityModerateDesc',
-              'Moderate exercise or sports.'
+              'Регулярные тренировки средней интенсивности.'
             )}
             isSelected={formData.activityLevel === 'moderate'}
             onClick={() => handleSelect('activityLevel', 'moderate')}
           />
           <OptionButton
-            label={t('onboarding.activityHeavy', 'Heavy (6-7 days/week)')}
+            label={t('onboarding.activityHeavy', 'Высокая (6-7 дней в неделю)')}
             subLabel={t(
               'onboarding.activityHeavyDesc',
-              'Hard exercise or sports.'
+              'Интенсивные тренировки почти каждый день.'
             )}
             isSelected={formData.activityLevel === 'heavy'}
             onClick={() => handleSelect('activityLevel', 'heavy')}
@@ -424,13 +470,13 @@ export const OnboardingSteps = ({
           <h1 className="text-3xl font-bold text-foreground mb-8">
             {t(
               'onboarding.addBurnedCaloriesTitle',
-              'Add burned calories from exercise?'
+              'Учитывать калории, потраченные на тренировках?'
             )}
           </h1>
           <p className="text-muted-foreground mb-8">
             {t(
               'onboarding.addBurnedCaloriesDesc',
-              'If you exercise, should we add those calories back to your daily budget?'
+              'Добавлять ли потраченные на тренировке калории к дневной норме?'
             )}
           </p>
           <div className="flex gap-4 w-full">
@@ -444,7 +490,7 @@ export const OnboardingSteps = ({
                   }
                 `}
             >
-              {t('common.no', 'No')}
+              {t('common.no', 'Нет')}
             </button>
             <button
               onClick={() => handleSelect('addBurnedCalories', true)}
@@ -456,7 +502,7 @@ export const OnboardingSteps = ({
                   }
                 `}
             >
-              {t('common.yes', 'Yes')}
+              {t('common.yes', 'Да')}
             </button>
           </div>
         </>
@@ -473,10 +519,13 @@ export const OnboardingSteps = ({
             </span>
           </div>
           <h2 className="text-2xl font-bold text-foreground text-center">
-            Preparing your personalized plan...
+            {t('onboarding.preparingPlan', 'Готовим ваш персональный план...')}
           </h2>
           <p className="text-muted-foreground mt-4">
-            Crunching the numbers based on your unique profile.
+            {t(
+              'onboarding.preparingPlanDescription',
+              'Рассчитываем показатели с учетом ваших данных.'
+            )}
           </p>
         </div>
       );
