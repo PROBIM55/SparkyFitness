@@ -34,9 +34,11 @@ import { MagicLinkRequestDialog } from './MagicLinkRequestDialog';
 import { useQueryClient } from '@tanstack/react-query';
 import { AuthResponse } from '@/types/auth';
 import { getErrorMessage } from '@/utils/api';
+import { useTranslation } from 'react-i18next';
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { loggingLevel } = usePreferences();
   const { signIn, user: authUser, loading: authLoading } = useAuth();
   debug(loggingLevel, 'Auth: Component rendered.');
@@ -403,22 +405,19 @@ const Auth = () => {
                   SparkyFitness
                 </CardTitle>
               </div>
-              <CardDescription>
-                Built for Families. Powered by AI. Track food, fitness, water,
-                and health — together.
-              </CardDescription>
+              <CardDescription>{t('auth.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               {loginSettings?.warning && (
                 <div className="mb-4 p-3 rounded-md bg-yellow-50 border border-yellow-200 text-sm text-yellow-800">
-                  <p className="font-semibold">Warning</p>
+                  <p className="font-semibold">{t('auth.warning')}</p>
                   <p>{loginSettings.warning}</p>
                 </div>
               )}
               {formError && (
                 <Alert variant="destructive" className="mb-4">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Authentication Failed</AlertTitle>
+                  <AlertTitle>{t('auth.authenticationFailed')}</AlertTitle>
                   <AlertDescription>{formError}</AlertDescription>
                 </Alert>
               )}
@@ -433,7 +432,7 @@ const Auth = () => {
                           debug(loggingLevel, 'Auth: Switched to Sign In tab.');
                         }}
                       >
-                        Sign In
+                        {t('auth.signIn')}
                       </TabsTrigger>
                       <TabsTrigger
                         value="signup"
@@ -442,23 +441,23 @@ const Auth = () => {
                           debug(loggingLevel, 'Auth: Switched to Sign Up tab.');
                         }}
                       >
-                        Sign Up
+                        {t('auth.signUp')}
                       </TabsTrigger>
                     </TabsList>
                   )}
                   {loginSettings?.signup_disabled && (
                     <p className="text-center text-xs text-muted-foreground">
-                      Registration is currently disabled.
+                      {t('auth.registrationDisabled')}
                     </p>
                   )}
                   <TabsContent value="signin">
                     <form onSubmit={handleSignIn} className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="signin-email">Email</Label>
+                        <Label htmlFor="signin-email">{t('auth.email')}</Label>
                         <Input
                           id="signin-email"
                           type="email"
-                          placeholder="Enter your email"
+                          placeholder={t('auth.emailPlaceholder')}
                           value={email}
                           onChange={(e) => {
                             debug(
@@ -472,11 +471,13 @@ const Auth = () => {
                         />
                       </div>
                       <div className="space-y-2 relative">
-                        <Label htmlFor="signin-password">Password</Label>
+                        <Label htmlFor="signin-password">
+                          {t('auth.password')}
+                        </Label>
                         <Input
                           id="signin-password"
                           type={showPassword ? 'text' : 'password'}
-                          placeholder="Enter your password"
+                          placeholder={t('auth.passwordPlaceholder')}
                           value={password}
                           onChange={(e) => {
                             debug(
@@ -498,7 +499,7 @@ const Auth = () => {
                           href="/forgot-password"
                           className="font-medium text-primary hover:underline"
                         >
-                          Forgot password?
+                          {t('auth.forgotPassword')}
                         </a>
                       </div>
                       <Button
@@ -506,7 +507,7 @@ const Auth = () => {
                         className="w-full"
                         disabled={loading}
                       >
-                        {loading ? 'Signing in...' : 'Sign In'}
+                        {loading ? t('auth.signingIn') : t('auth.signIn')}
                       </Button>
                     </form>
                     <div className="relative my-6">
@@ -515,7 +516,7 @@ const Auth = () => {
                       </div>
                       <div className="relative flex justify-center text-xs uppercase">
                         <span className="bg-background px-2 text-muted-foreground">
-                          Or sign in with
+                          {t('auth.orSignInWith')}
                         </span>
                       </div>
                     </div>
@@ -525,15 +526,16 @@ const Auth = () => {
                       onClick={handlePasskeySignIn}
                       disabled={loading}
                     >
-                      <Fingerprint className="h-4 w-4 mr-2 text-primary" /> Sign
-                      in with Passkey
+                      <Fingerprint className="h-4 w-4 mr-2 text-primary" />
+                      {t('auth.signInWithPasskey')}
                     </Button>
                     <Button
                       variant="outline"
                       className="w-full dark:bg-gray-800 dark:hover:bg-gray-600 flex items-center justify-center mb-2"
                       onClick={() => setIsMagicLinkRequestDialogOpen(true)}
                     >
-                      <Zap className="h-4 w-4 mr-2" /> Request Magic Link
+                      <Zap className="h-4 w-4 mr-2" />
+                      {t('auth.requestMagicLink')}
                     </Button>
                     {loginSettings?.oidc.enabled && (
                       <>
@@ -558,7 +560,7 @@ const Auth = () => {
                                 className="h-5 w-5 mr-2"
                               />
                             )}
-                            {provider.display_name || 'Sign In with OIDC'}
+                            {provider.display_name || t('auth.signInWithOidc')}
                           </Button>
                         ))}
                       </>
@@ -569,11 +571,13 @@ const Auth = () => {
                     <TabsContent value="signup">
                       <form onSubmit={handleSignUp} className="space-y-4">
                         <div className="space-y-2">
-                          <Label htmlFor="signup-name">Full Name</Label>
+                          <Label htmlFor="signup-name">
+                            {t('auth.fullName')}
+                          </Label>
                           <Input
                             id="signup-name"
                             type="text"
-                            placeholder="Enter your full name"
+                            placeholder={t('auth.fullNamePlaceholder')}
                             value={fullName}
                             onChange={(e) => {
                               debug(
@@ -587,11 +591,13 @@ const Auth = () => {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="signup-email">Email</Label>
+                          <Label htmlFor="signup-email">
+                            {t('auth.email')}
+                          </Label>
                           <Input
                             id="signup-email"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder={t('auth.emailPlaceholder')}
                             value={email}
                             onChange={(e) => {
                               debug(
@@ -605,11 +611,13 @@ const Auth = () => {
                           />
                         </div>
                         <div className="space-y-2 relative">
-                          <Label htmlFor="signup-password">Password</Label>
+                          <Label htmlFor="signup-password">
+                            {t('auth.password')}
+                          </Label>
                           <Input
                             id="signup-password"
                             type={showPassword ? 'text' : 'password'}
-                            placeholder="Create a password"
+                            placeholder={t('auth.createPasswordPlaceholder')}
                             value={password}
                             onChange={(e) => {
                               debug(
@@ -639,7 +647,9 @@ const Auth = () => {
                           className="w-full"
                           disabled={loading || !!passwordError}
                         >
-                          {loading ? 'Creating account...' : 'Sign Up'}
+                          {loading
+                            ? t('auth.creatingAccount')
+                            : t('auth.signUp')}
                         </Button>
                       </form>
                     </TabsContent>
@@ -654,8 +664,8 @@ const Auth = () => {
                     onClick={handlePasskeySignIn}
                     disabled={loading}
                   >
-                    <Fingerprint className="h-4 w-4 mr-2 text-primary" /> Sign
-                    in with Passkey
+                    <Fingerprint className="h-4 w-4 mr-2 text-primary" />
+                    {t('auth.signInWithPasskey')}
                   </Button>
 
                   {loginSettings?.oidc?.enabled &&
@@ -664,7 +674,7 @@ const Auth = () => {
                         <div className="flex items-center my-4">
                           <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
                           <span className="flex-shrink mx-4 text-gray-400 text-xs uppercase">
-                            Or sign in with
+                            {t('auth.orSignInWith')}
                           </span>
                           <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
                         </div>
@@ -689,7 +699,8 @@ const Auth = () => {
                                   className="h-5 w-5 mr-2"
                                 />
                               )}
-                              {provider.display_name || 'Sign In with OIDC'}
+                              {provider.display_name ||
+                                t('auth.signInWithOidc')}
                             </Button>
                           ))}
                         </div>
