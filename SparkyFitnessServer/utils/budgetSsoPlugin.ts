@@ -36,6 +36,12 @@ const budgetSsoPage = `<!doctype html>
       const retry = document.getElementById('retry');
       const ticket = new URLSearchParams(location.hash.slice(1)).get('ticket');
       history.replaceState(null, '', location.pathname);
+      if (!localStorage.getItem('budgetSsoLocaleInitialized')) {
+        localStorage.setItem('i18nextLng', 'ru');
+        localStorage.setItem('language', 'ru');
+        localStorage.setItem('budgetSsoLocaleInitialized', '1');
+        document.cookie = 'i18next=ru; Path=/; Max-Age=31536000; SameSite=Lax; Secure';
+      }
       const fail = () => {
         status.textContent = 'Не удалось выполнить единый вход';
         detail.textContent = 'Вернитесь в BudgetApp и повторите переход в раздел «Здоровье».';
