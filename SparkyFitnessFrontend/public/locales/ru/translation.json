@@ -2261,6 +2261,26 @@
   "auth": {
     "signedOut": "Вы вышли из системы",
     "signOutFailed": "Не удалось выйти из системы",
-    "signOut": "Выйти"
+    "signOut": "Выйти",
+    "description": "Питание, тренировки, вода и показатели здоровья в одном месте.",
+    "warning": "Внимание",
+    "authenticationFailed": "Не удалось войти",
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "registrationDisabled": "Регистрация сейчас отключена.",
+    "email": "Электронная почта",
+    "emailPlaceholder": "Введите адрес электронной почты",
+    "password": "Пароль",
+    "passwordPlaceholder": "Введите пароль",
+    "forgotPassword": "Забыли пароль?",
+    "signingIn": "Выполняется вход...",
+    "orSignInWith": "Другие способы входа",
+    "signInWithPasskey": "Войти с ключом доступа",
+    "requestMagicLink": "Получить ссылку для входа",
+    "signInWithOidc": "Войти через внешний сервис",
+    "fullName": "Имя",
+    "fullNamePlaceholder": "Введите имя",
+    "createPasswordPlaceholder": "Придумайте пароль",
+    "creatingAccount": "Создаём аккаунт..."
   }
 }

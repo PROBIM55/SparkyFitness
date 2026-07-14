@@ -2809,6 +2809,26 @@
   "auth": {
     "signedOut": "Signed out successfully",
     "signOutFailed": "Failed to sign out",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "description": "Built for Families. Powered by AI. Track food, fitness, water, and health — together.",
+    "warning": "Warning",
+    "authenticationFailed": "Authentication Failed",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "registrationDisabled": "Registration is currently disabled.",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPassword": "Forgot password?",
+    "signingIn": "Signing in...",
+    "orSignInWith": "Or sign in with",
+    "signInWithPasskey": "Sign in with Passkey",
+    "requestMagicLink": "Request Magic Link",
+    "signInWithOidc": "Sign In with OIDC",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "createPasswordPlaceholder": "Create a password",
+    "creatingAccount": "Creating account..."
   }
 }
