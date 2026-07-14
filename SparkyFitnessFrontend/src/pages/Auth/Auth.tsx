@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -38,6 +38,7 @@ import { useTranslation } from 'react-i18next';
 
 const Auth = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t } = useTranslation();
   const { loggingLevel } = usePreferences();
   const { signIn, user: authUser, loading: authLoading } = useAuth();
@@ -65,6 +66,15 @@ const Auth = () => {
   const { mutateAsync: registerUser } = useRegisterUserMutation();
   const { mutateAsync: requestMagicLink } = useRequestMagicLinkMutation();
   const { mutateAsync: initiateOidcLogin } = useInitiateOidcLoginMutation();
+  const useLocalAuth = searchParams.get('local') === '1';
+  const shouldUseBudgetSso =
+    window.location.pathname === '/login' && !useLocalAuth;
+
+  useEffect(() => {
+    if (shouldUseBudgetSso && !authLoading && !authUser) {
+      window.location.replace('https://budzhetapp.ru/app/sso/health');
+    }
+  }, [authLoading, authUser, shouldUseBudgetSso]);
 
   useEffect(() => {
     const fetchAuthSettings = async () => {
@@ -376,6 +386,30 @@ const Auth = () => {
       setLoading(false);
     }
   };
+
+  if (shouldUseBudgetSso) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center">
+          <CardContent className="pt-6">
+            <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin text-primary" />
+            <h1 className="text-lg font-semibold">
+              {t('auth.redirectingToBudget')}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {t('auth.sharedAccountDescription')}
+            </p>
+            <a
+              href="/login?local=1"
+              className="mt-5 inline-block text-xs text-muted-foreground hover:underline"
+            >
+              {t('auth.useLocalLogin')}
+            </a>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <>

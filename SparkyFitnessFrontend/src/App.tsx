@@ -49,6 +49,7 @@ const ForgotPassword = lazyWithChunkRecovery(
 const ResetPassword = lazyWithChunkRecovery(
   () => import('@/pages/Auth/ResetPassword')
 );
+const BudgetSso = lazyWithChunkRecovery(() => import('@/pages/Auth/BudgetSso'));
 const Index = lazyWithChunkRecovery(() => import('@/pages/Index'));
 const Diary = lazyWithChunkRecovery(() => import('@/pages/Diary/Diary'));
 const CheckIn = lazyWithChunkRecovery(() => import('./pages/CheckIn/CheckIn'));
@@ -271,6 +272,11 @@ const router = createBrowserRouter([
     ErrorBoundary: RootErrorBoundary,
     children: [
       { path: '/login', Component: Auth, ErrorBoundary: RootErrorBoundary },
+      {
+        path: '/budget-sso',
+        Component: BudgetSso,
+        ErrorBoundary: RootErrorBoundary,
+      },
       {
         path: '/forgot-password',
         Component: ForgotPassword,

@@ -2829,6 +2829,9 @@
     "fullName": "Full Name",
     "fullNamePlaceholder": "Enter your full name",
     "createPasswordPlaceholder": "Create a password",
-    "creatingAccount": "Creating account..."
+    "creatingAccount": "Creating account...",
+    "redirectingToBudget": "Redirecting to shared sign-in",
+    "sharedAccountDescription": "BudgetApp uses one account for finances and health.",
+    "useLocalLogin": "Emergency local sign-in"
   }
 }
