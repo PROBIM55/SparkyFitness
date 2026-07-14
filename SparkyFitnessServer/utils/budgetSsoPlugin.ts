@@ -42,6 +42,16 @@ const budgetSsoPage = `<!doctype html>
         localStorage.setItem('budgetSsoLocaleInitialized', '1');
         document.cookie = 'i18next=ru; Path=/; Max-Age=31536000; SameSite=Lax; Secure';
       }
+      const resetLegacyPwaCache = async () => {
+        if (localStorage.getItem('budgetSsoPwaResetV1')) return;
+        const registrations = await navigator.serviceWorker?.getRegistrations?.() || [];
+        await Promise.all(registrations.map((registration) => registration.unregister()));
+        if ('caches' in window) {
+          const cacheNames = await caches.keys();
+          await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+        }
+        localStorage.setItem('budgetSsoPwaResetV1', '1');
+      };
       const fail = () => {
         status.textContent = 'Не удалось выполнить единый вход';
         detail.textContent = 'Вернитесь в BudgetApp и повторите переход в раздел «Здоровье».';
@@ -51,15 +61,18 @@ const budgetSsoPage = `<!doctype html>
         fail();
         return;
       }
-      fetch('/api/auth/budget-sso', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ticket})
-      }).then((response) => {
-        if (!response.ok) throw new Error('SSO exchange failed');
-        location.replace('/');
-      }).catch(fail);
+      resetLegacyPwaCache()
+        .then(() => fetch('/api/auth/budget-sso', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ticket})
+        }))
+        .then((response) => {
+          if (!response.ok) throw new Error('SSO exchange failed');
+          location.replace('/');
+        })
+        .catch(fail);
     })();
   </script>
 </body>
