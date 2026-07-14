@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HeartPulse, Loader2, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +7,8 @@ import { useBudgetSsoExchange } from '@/hooks/Auth/useBudgetSso';
 const BUDGET_SSO_URL = 'https://budzhetapp.ru/app/sso/health';
 
 export default function BudgetSso() {
-  const { mutateAsync: exchangeTicket } = useBudgetSsoExchange();
+  const exchangeTicket = useBudgetSsoExchange();
+  const exchangeStarted = useRef(false);
   const [ticket] = useState(() => {
     const value = new URLSearchParams(window.location.hash.slice(1)).get(
       'ticket'
@@ -18,7 +19,8 @@ export default function BudgetSso() {
   const [failed, setFailed] = useState(!ticket);
 
   useEffect(() => {
-    if (!ticket) return;
+    if (!ticket || exchangeStarted.current) return;
+    exchangeStarted.current = true;
 
     if (!localStorage.getItem('budget_sso_language_initialized')) {
       localStorage.setItem('i18nextLng', 'ru');

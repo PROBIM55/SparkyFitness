@@ -13,7 +13,7 @@ function createTicket(overrides: Record<string, unknown> = {}) {
     sub: '42',
     login: 'budget_admin',
     iat: now,
-    exp: now + 60,
+    exp: now + 300,
     jti: 'abcdefghijklmnopqrstuvwxyz012345',
     ...overrides,
   };
@@ -41,7 +41,7 @@ describe('BudgetApp SSO ticket verification', () => {
   });
 
   it('rejects an expired ticket', () => {
-    expect(() => verifyBudgetSsoTicket(createTicket(), 1_800_000_061)).toThrow(
+    expect(() => verifyBudgetSsoTicket(createTicket(), 1_800_000_301)).toThrow(
       /lifetime/
     );
   });

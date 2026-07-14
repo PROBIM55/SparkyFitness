@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
+import { useCallback } from 'react';
 import { exchangeBudgetSsoTicket } from '@/api/budgetSso';
 
 export function useBudgetSsoExchange() {
-  return useMutation({ mutationFn: exchangeBudgetSsoTicket });
+  return useCallback((ticket: string) => exchangeBudgetSsoTicket(ticket), []);
 }
