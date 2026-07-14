@@ -43,14 +43,14 @@ const budgetSsoPage = `<!doctype html>
         document.cookie = 'i18next=ru; Path=/; Max-Age=31536000; SameSite=Lax; Secure';
       }
       const resetLegacyPwaCache = async () => {
-        if (localStorage.getItem('budgetSsoPwaResetV1')) return;
+        if (localStorage.getItem('budgetSsoPwaResetV2')) return;
         const registrations = await navigator.serviceWorker?.getRegistrations?.() || [];
         await Promise.all(registrations.map((registration) => registration.unregister()));
         if ('caches' in window) {
           const cacheNames = await caches.keys();
           await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
         }
-        localStorage.setItem('budgetSsoPwaResetV1', '1');
+        localStorage.setItem('budgetSsoPwaResetV2', '1');
       };
       const fail = () => {
         status.textContent = 'Не удалось выполнить единый вход';
