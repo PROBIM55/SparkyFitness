@@ -1421,6 +1421,8 @@
   "diary": {
     "nutritionSummary": "Nutrition Summary",
     "dailyEnergyGoal": "Daily Energy Goal",
+    "noFoodsAddedYet": "No foods added yet",
+    "noTrendData14Days": "No trend data is available for the past 14 days",
     "waterIntake": "Water Intake",
     "exercise": "Exercise",
     "widgets": {

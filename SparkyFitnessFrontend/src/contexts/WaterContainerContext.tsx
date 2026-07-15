@@ -14,6 +14,7 @@ import {
   useSetPrimaryWaterContainerMutation,
 } from '@/hooks/Settings/useWaterContainers';
 import { WaterContainer } from '@/types/settings';
+import { useTranslation } from 'react-i18next';
 
 interface WaterContainerContextType {
   activeContainer: WaterContainer | undefined | null;
@@ -28,6 +29,7 @@ export const WaterContainerProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const { water_display_unit } = usePreferences();
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
   const { activeUserId } = useActiveUser(); // Get activeUserId
 
@@ -60,7 +62,7 @@ export const WaterContainerProvider: React.FC<{ children: ReactNode }> = ({
       return {
         id: -1, // Verhindert Type-Errors, da id oft number ist
         user_id: '',
-        name: 'Default Container',
+        name: t('diary.waterIntake.defaultContainer', 'Стандартная ёмкость'),
         volume: 2000,
         unit: water_display_unit,
         is_primary: true,
@@ -69,7 +71,7 @@ export const WaterContainerProvider: React.FC<{ children: ReactNode }> = ({
     }
 
     return containers[0];
-  }, [containers, currentUserId, isSuccess, loading, water_display_unit]);
+  }, [containers, currentUserId, isSuccess, loading, t, water_display_unit]);
 
   return (
     <WaterContainerContext.Provider value={{ activeContainer, containers }}>

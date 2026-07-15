@@ -3,6 +3,7 @@ import { APIError, createAuthEndpoint } from 'better-auth/api';
 import { setSessionCookie } from 'better-auth/cookies';
 import { z } from 'zod';
 import { getBudgetSsoEmail, verifyBudgetSsoTicket } from './budgetSso.js';
+import { syncBudgetIdentity } from '../services/budgetIdentityService.js';
 
 const ticketSchema = z.object({
   ticket: z.string().min(20).max(4096),
@@ -137,6 +138,7 @@ export const budgetSso = () =>
               providerId
             );
 
+          const displayName = payload.v === 2 ? payload.name : payload.login;
           let user = linkedAccount
             ? await ctx.context.internalAdapter.findUserById(
                 linkedAccount.userId
@@ -152,7 +154,7 @@ export const budgetSso = () =>
               (await ctx.context.internalAdapter.createUser({
                 email,
                 emailVerified: true,
-                name: payload.login,
+                name: displayName,
               }));
 
             if (!linkedAccount) {
@@ -162,10 +164,14 @@ export const budgetSso = () =>
                 providerId,
               });
             }
-          } else if (user.name !== payload.login) {
+          } else if (user.name !== displayName) {
             user = await ctx.context.internalAdapter.updateUser(user.id, {
-              name: payload.login,
+              name: displayName,
             });
+          }
+
+          if (payload.v === 2) {
+            await syncBudgetIdentity(payload, user.id);
           }
 
           const session = await ctx.context.internalAdapter.createSession(

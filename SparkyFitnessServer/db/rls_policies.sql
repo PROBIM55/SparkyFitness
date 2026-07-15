@@ -100,7 +100,8 @@ BEGIN
     'health_appointments',
     'user_custom_moods',
     'user_mood_display_preferences',
-    'passkey_registration_tickets'
+    'passkey_registration_tickets',
+    'budget_identity_links'
   ]::text[])
   LOOP
     EXECUTE 'ALTER TABLE public.' || quote_ident(table_name) || ' ENABLE ROW LEVEL SECURITY;';
@@ -895,3 +896,7 @@ CREATE POLICY modify_policy ON public.user_medication_display_preferences FOR AL
 -- RLS). Deny the app role entirely as defense-in-depth so a stray GRANT can
 -- never expose session material to user-scoped queries.
 CREATE POLICY deny_all_policy ON public.passkey_registration_tickets FOR ALL TO PUBLIC USING (false) WITH CHECK (false);
+
+-- BudgetApp identity links are maintained only by the trusted SSO bridge via
+-- getSystemClient. User-scoped database connections must never modify them.
+CREATE POLICY deny_all_policy ON public.budget_identity_links FOR ALL TO PUBLIC USING (false) WITH CHECK (false);

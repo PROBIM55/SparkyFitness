@@ -15,6 +15,7 @@ export const familyAccessSchema = z.object({
   created_at: z.date(),
   updated_at: z.date(),
   status: z.string().nullable(),
+  source: z.string(),
 });
 
 export const familyAccessInitializerSchema = z.object({
@@ -29,6 +30,7 @@ export const familyAccessInitializerSchema = z.object({
   created_at: z.date().optional(),
   updated_at: z.date().optional(),
   status: z.string().optional().nullable(),
+  source: z.string().optional(),
 });
 
 export const familyAccessMutatorSchema = z.object({
@@ -43,8 +45,11 @@ export const familyAccessMutatorSchema = z.object({
   created_at: z.date().optional(),
   updated_at: z.date().optional(),
   status: z.string().optional().nullable(),
+  source: z.string().optional(),
 });
 
 export type FamilyAccess = z.infer<typeof familyAccessSchema>;
-export type FamilyAccessInitializer = z.infer<typeof familyAccessInitializerSchema>;
+export type FamilyAccessInitializer = z.infer<
+  typeof familyAccessInitializerSchema
+>;
 export type FamilyAccessMutator = z.infer<typeof familyAccessMutatorSchema>;

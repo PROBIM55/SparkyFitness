@@ -40,6 +40,40 @@ describe('BudgetApp SSO ticket verification', () => {
     expect(payload.login).toBe('budget_admin');
   });
 
+  it('accepts family identity claims from a version 2 ticket', () => {
+    const payload = verifyBudgetSsoTicket(
+      createTicket({
+        v: 2,
+        name: 'Александр',
+        account_id: '7',
+        member_id: '11',
+        role: 'owner',
+      }),
+      1_800_000_010
+    );
+    expect(payload.v).toBe(2);
+    if (payload.v === 2) {
+      expect(payload.account_id).toBe('7');
+      expect(payload.member_id).toBe('11');
+      expect(payload.name).toBe('Александр');
+    }
+  });
+
+  it('rejects invalid family identity claims', () => {
+    expect(() =>
+      verifyBudgetSsoTicket(
+        createTicket({
+          v: 2,
+          name: 'Александр',
+          account_id: '7',
+          member_id: '11',
+          role: 'superadmin',
+        }),
+        1_800_000_010
+      )
+    ).toThrow(/claims/);
+  });
+
   it('rejects an expired ticket', () => {
     expect(() => verifyBudgetSsoTicket(createTicket(), 1_800_000_301)).toThrow(
       /lifetime/

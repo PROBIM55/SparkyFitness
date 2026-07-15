@@ -33,6 +33,7 @@ import { DEFAULT_GOALS, NUTRIENT_CONFIG } from '@/constants/goals';
 import { NutrientInput } from '@/pages/Goals/NutrientInput';
 import { WaterAndExerciseFields } from '@/pages/Goals/WaterAndExerciseFields';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTranslation } from 'react-i18next';
 import { useCustomNutrients } from '@/hooks/Foods/useCustomNutrients';
 import type { UserCustomNutrient } from '@/types/customNutrient';
 import { useMealTypes } from '@/hooks/Diary/useMealTypes';
@@ -370,6 +371,7 @@ const EditGoalsForm = ({
 };
 
 const EditGoalsForToday = ({ selectedDate }: EditGoalsProps) => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { formatDate } = usePreferences();
   const [open, setOpen] = useState(false);
@@ -421,12 +423,16 @@ const EditGoalsForToday = ({ selectedDate }: EditGoalsProps) => {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="dark:text-slate-300">
           <Settings className="w-4 h-4 mr-2" />
-          Edit Goals
+          {t('goals.page.editGoals', 'Изменить цели')}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Goals for {formatDate(selectedDate)}</DialogTitle>
+          <DialogTitle>
+            {t('goals.page.editGoalsFor', 'Цели на {{date}}', {
+              date: formatDate(selectedDate),
+            })}
+          </DialogTitle>
         </DialogHeader>
 
         {isLoading ? (

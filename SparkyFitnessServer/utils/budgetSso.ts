@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 
-export type BudgetSsoPayload = {
-  v: 1;
+type BudgetSsoBasePayload = {
   iss: 'budgetapp';
   aud: 'sparkyfitness';
   sub: string;
@@ -10,6 +9,18 @@ export type BudgetSsoPayload = {
   exp: number;
   jti: string;
 };
+
+export type BudgetSsoPayloadV1 = BudgetSsoBasePayload & { v: 1 };
+
+export type BudgetSsoPayloadV2 = BudgetSsoBasePayload & {
+  v: 2;
+  name: string;
+  account_id: string;
+  member_id: string | null;
+  role: 'owner' | 'admin' | 'member';
+};
+
+export type BudgetSsoPayload = BudgetSsoPayloadV1 | BudgetSsoPayloadV2;
 
 function getSecret(): string {
   const secret = process.env.HEALTH_SSO_SECRET || '';
@@ -22,8 +33,7 @@ function getSecret(): string {
 function isBudgetSsoPayload(value: unknown): value is BudgetSsoPayload {
   if (!value || typeof value !== 'object') return false;
   const payload = value as Record<string, unknown>;
-  return (
-    payload.v === 1 &&
+  const commonClaimsAreValid =
     payload.iss === 'budgetapp' &&
     payload.aud === 'sparkyfitness' &&
     typeof payload.sub === 'string' &&
@@ -36,7 +46,24 @@ function isBudgetSsoPayload(value: unknown): value is BudgetSsoPayload {
     typeof payload.exp === 'number' &&
     Number.isInteger(payload.exp) &&
     typeof payload.jti === 'string' &&
-    /^[A-Za-z0-9_-]{20,}$/.test(payload.jti)
+    /^[A-Za-z0-9_-]{20,}$/.test(payload.jti);
+
+  if (!commonClaimsAreValid) return false;
+  if (payload.v === 1) return true;
+  if (payload.v !== 2) return false;
+
+  return (
+    typeof payload.name === 'string' &&
+    payload.name.length >= 1 &&
+    payload.name.length <= 128 &&
+    typeof payload.account_id === 'string' &&
+    /^\d+$/.test(payload.account_id) &&
+    (payload.member_id === null ||
+      (typeof payload.member_id === 'string' &&
+        /^\d+$/.test(payload.member_id))) &&
+    (payload.role === 'owner' ||
+      payload.role === 'admin' ||
+      payload.role === 'member')
   );
 }
 
